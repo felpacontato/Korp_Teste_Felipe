@@ -1,0 +1,28 @@
+services:
+  estoque-db:
+    image: postgres:16
+    container_name: korp-estoque-db
+    environment:
+      POSTGRES_DB: estoque_db
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: postgres
+    ports:
+      - "5433:5432"
+    volumes:
+      - estoque_data:/var/lib/postgresql/data
+
+  faturamento-db:
+    image: postgres:16
+    container_name: korp-faturamento-db
+    environment:
+      POSTGRES_DB: faturamento_db
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: postgres
+    ports:
+      - "5434:5432"
+    volumes:
+      - faturamento_data:/var/lib/postgresql/data
+
+volumes:
+  estoque_data:
+  faturamento_data:

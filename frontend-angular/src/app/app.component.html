@@ -1,0 +1,108 @@
+<main class="page">
+  <header class="topbar">
+    <div>
+      <h1>Emissao de Notas Fiscais</h1>
+      <p>Produtos, estoque e faturamento em microsservicos</p>
+    </div>
+    <button type="button" (click)="carregarDados()" [disabled]="carregando">Atualizar</button>
+  </header>
+
+  <section class="feedback" *ngIf="mensagem || erro || carregando">
+    <span class="success" *ngIf="mensagem">{{ mensagem }}</span>
+    <span class="error" *ngIf="erro">{{ erro }}</span>
+    <span *ngIf="carregando">Carregando dados...</span>
+  </section>
+
+  <section class="grid">
+    <article class="panel">
+      <h2>Cadastro de Produtos</h2>
+      <form (ngSubmit)="cadastrarProduto()" class="form">
+        <label>
+          Codigo
+          <input name="codigo" [(ngModel)]="produtoForm.codigo" required />
+        </label>
+        <label>
+          Descricao
+          <input name="descricao" [(ngModel)]="produtoForm.descricao" required />
+        </label>
+        <label>
+          Saldo
+          <input name="saldo" type="number" min="0" [(ngModel)]="produtoForm.saldo" required />
+        </label>
+        <button type="submit">Cadastrar produto</button>
+      </form>
+    </article>
+
+    <article class="panel">
+      <h2>Nova Nota Fiscal</h2>
+      <div class="item-row" *ngFor="let item of notaItens; let i = index">
+        <label>
+          Produto
+          <select [(ngModel)]="item.produtoCodigo" name="produto-{{ i }}">
+            <option value="">Selecione</option>
+            <option *ngFor="let produto of produtos" [value]="produto.codigo">
+              {{ produto.codigo }} - {{ produto.descricao }} (saldo {{ produto.saldo }})
+            </option>
+          </select>
+        </label>
+        <label>
+          Qtd.
+          <input type="number" min="1" [(ngModel)]="item.quantidade" name="quantidade-{{ i }}" />
+        </label>
+        <button type="button" class="ghost" (click)="removerItem(i)">Remover</button>
+      </div>
+      <div class="actions">
+        <button type="button" class="secondary" (click)="adicionarItem()">Adicionar item</button>
+        <button type="button" (click)="criarNota()">Criar nota</button>
+      </div>
+    </article>
+  </section>
+
+  <section class="panel">
+    <div class="section-head">
+      <h2>Produtos em Estoque</h2>
+      <span>{{ produtos.length }} produto(s)</span>
+    </div>
+    <table>
+      <thead>
+        <tr>
+          <th>Codigo</th>
+          <th>Descricao</th>
+          <th>Saldo</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr *ngFor="let produto of produtos">
+          <td>{{ produto.codigo }}</td>
+          <td>{{ produto.descricao }}</td>
+          <td>{{ produto.saldo }}</td>
+        </tr>
+      </tbody>
+    </table>
+  </section>
+
+  <section class="panel">
+    <div class="section-head">
+      <h2>Notas Fiscais</h2>
+      <label class="check">
+        <input type="checkbox" [(ngModel)]="simularFalha" />
+        Simular falha no estoque
+      </label>
+    </div>
+
+    <div class="notes">
+      <article class="note" *ngFor="let nota of notas">
+        <div>
+          <strong>Nota {{ nota.numero }}</strong>
+          <span [class.closed]="nota.status === 'Fechada'">{{ nota.status }}</span>
+        </div>
+        <ul>
+          <li *ngFor="let item of nota.itens">{{ item.produtoCodigo }} - {{ item.quantidade }} unidade(s)</li>
+        </ul>
+        <button type="button" (click)="imprimir(nota)" [disabled]="nota.status !== 'Aberta' || imprimindoId === nota.id">
+          {{ imprimindoId === nota.id ? 'Processando...' : 'Imprimir' }}
+        </button>
+      </article>
+    </div>
+  </section>
+</main>
