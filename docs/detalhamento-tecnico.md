@@ -12,7 +12,7 @@ Cada microsservico possui seu proprio banco PostgreSQL. Essa separacao evita aco
 
 ## Angular
 
-Foram utilizados componentes standalone. O componente principal concentra o fluxo do teste para manter a navegacao simples durante a demonstracao.
+Foi utilizado Angular 22 com componentes standalone. O componente principal concentra o fluxo do teste para manter a navegacao simples durante a demonstracao.
 
 Ciclos de vida utilizados:
 

@@ -4,7 +4,7 @@ Sistema simples para cadastro de produtos, emissao de notas fiscais e baixa de e
 
 ## Tecnologias
 
-- Angular 18
+- Angular 22
 - ASP.NET Core 8
 - Entity Framework Core
 - PostgreSQL
@@ -20,6 +20,12 @@ docs/                  Detalhamento tecnico
 ```
 
 ## Como executar
+
+Requisitos:
+
+- .NET SDK 8
+- Node.js 24.15 ou superior
+- Docker
 
 Subir os bancos:
 
